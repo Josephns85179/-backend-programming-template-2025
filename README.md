@@ -1,18 +1,26 @@
-# Backend Programming Template (2025)
+# How to gacha?
 
-## Development Setup
+1. Create a user using localhost:5000/api/users in echo API using POST
+   example:
+   {
+   "email": "example@gmail.com",
+   "full_name": "Example User",
+   "password": "12345678"
+   "confirm_password": "1234678"
+   }
+2. Get the user id by using the same URL but using GET this time
+3. Insert it into localhost:5000/api/gacha using POST in this format:
+   {
+   "userId": "(the user id you copied)"
+   }
+4. See the results! The quota for each prize automatically decreases in MongoDB every time someone wins a prize.
 
-1. Fork and clone this repository to your local computer.
-2. Open the project using VS Code.
-3. Install the recommended VS Code extensions: `ESLint` and `Prettier`.
-4. Copy and rename `.env.example` to `.env`. Open `.env` and change the database connection string.
-5. Run `npm install` to install the project dependencies.
-6. Run `npm run dev` to start the dev server.
-7. Test the endpoints in the API client app.
-
-## Add New API Endpoints
-
-1. Create a new database schema in `./src/models`.
-2. Create a new folder in `./src/api/components` (if needed). Remember to separate your codes to repositories, services, controllers, and routes.
-3. Add the new route in `./src/api/routes.js`.
-4. Test your new endpoints in the API client app.
+Output example:
+{
+"sukses": true,
+"message": "Selamat! Anda mendapatkan hadiah.",
+"data": {
+"hadiah": "Pulsa Rp. 50,000",
+"waktuMenang": "2026-04-13T16:34:29.589Z"
+}
+}
