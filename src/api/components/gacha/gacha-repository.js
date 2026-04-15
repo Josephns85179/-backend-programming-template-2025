@@ -13,10 +13,7 @@ async function getJumlahDimainkanHariIni(userId) {
 
   return DaftarPermainan.countDocuments({
     userId,
-    tanggalDibuat: {
-      $gte: awalHari,
-      $lte: akhirHari,
-    },
+    tanggalDibuat: { $gte: awalHari, $lte: akhirHari },
   });
 }
 
@@ -28,7 +25,7 @@ async function kurangiKuotaHadiah(hadiahId) {
   );
 }
 
-async function buatDaftarPermainan(userId, hadiahId, hadiahName) {
+async function createDaftarPermainan(userId, hadiahId, hadiahName) {
   return DaftarPermainan.create({
     userId,
     hadiahId,
@@ -37,9 +34,22 @@ async function buatDaftarPermainan(userId, hadiahId, hadiahName) {
   });
 }
 
+async function getHistoriUser(userId) {
+  return DaftarPermainan.find(
+    { userId },
+    { hadiahName: 1, tanggalDibuat: 1, _id: 0 }
+  ).sort({ tanggalDibuat: -1 });
+}
+
+async function getDaftarHadiah() {
+  return Hadiah.find({}, { name: 1, kuota: 1, _id: 0 });
+}
+
 module.exports = {
   getHadiahYangTersedia,
   getJumlahDimainkanHariIni,
   kurangiKuotaHadiah,
-  buatDaftarPermainan,
+  createDaftarPermainan,
+  getHistoriUser,
+  getDaftarHadiah,
 };

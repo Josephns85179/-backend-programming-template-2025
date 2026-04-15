@@ -10,7 +10,7 @@ async function yukMainGacha(userId) {
   const hadiahTersedia = await gachaRepository.getHadiahYangTersedia();
   if (hadiahTersedia.length === 0) {
     throw new Error(
-      'Semua hadiah sudah terklaim, mohon menunggu periode selanjutnya.'
+      'Semua hadiah sudah terklaim, mohon menunggu periode gacha selanjutnya.'
     );
   }
 
@@ -27,12 +27,12 @@ async function yukMainGacha(userId) {
   }
 
   const hadiahUpdated = await gachaRepository.kurangiKuotaHadiah(
-    hadiahDimenangkan._id
+    hadiahDimenangkan.id
   );
 
-  const daftarPermainan = await gachaRepository.buatDaftarPermainan(
+  const daftarPermainan = await gachaRepository.createDaftarPermainan(
     userId,
-    hadiahUpdated._id,
+    hadiahUpdated.id,
     hadiahDimenangkan.name
   );
 
@@ -42,6 +42,22 @@ async function yukMainGacha(userId) {
   };
 }
 
+async function getHistori(userId) {
+  const histori = await gachaRepository.getHistoriUser(userId);
+
+  if (!histori) {
+    throw new Error('User ini belum pernah memenangkan hadiah gacha.');
+  }
+
+  return histori;
+}
+
+async function getDaftarHadiah() {
+  return gachaRepository.getDaftarHadiah();
+}
+
 module.exports = {
   yukMainGacha,
+  getHistori,
+  getDaftarHadiah,
 };
